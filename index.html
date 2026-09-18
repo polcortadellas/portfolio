@@ -5,348 +5,535 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pol Cortadellas - Software Engineering Portfolio</title>
     <meta name="description" content="Software Engineering Portfolio for Pol Cortadellas">
-    
+
     <!-- Alpine.js -->
-        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
         [x-cloak] { display: none !important; }
-        .scroll-smooth {
-            scroll-behavior: smooth;
+
+        * { font-family: 'Inter', sans-serif; }
+
+        html, body {
+            overflow: hidden;
+            height: 100%;
+            margin: 0;
         }
+
+        /* Smooth theme transitions */
+        body, nav, main, section, div, span, p, h1, h2, h3, a, button {
+            transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        /* ========== DARK MODE ========== */
+        body.dark { background-color: #0F1219; color: #E2E4E9; }
+        body.dark .sidebar-nav { background-color: #0A0D12; }
+        body.dark .mobile-nav { background-color: #0A0D12; }
+        body.dark .mobile-overlay { background-color: rgba(10, 13, 18, 0.97); }
+        body.dark .card { background-color: #181C25; border-color: #252A36; }
+        body.dark .card:hover { border-color: rgba(43, 182, 115, 0.3); }
+        body.dark .skill-bar-bg { background-color: #252A36; }
+        body.dark .tag { background-color: #252A36; border-color: #333A48; color: #A0A8B8; }
+        body.dark .tech-tag { background-color: rgba(43, 182, 115, 0.15); color: #2BB673; }
+        body.dark .text-secondary { color: #8892A4 !important; }
+        body.dark .text-primary-green { color: #2BB673 !important; }
+        body.dark .icon-container { background-color: rgba(30, 70, 32, 0.25); }
+        body.dark .icon-container-accent { background-color: rgba(43, 182, 115, 0.15); }
+        body.dark .badge-current { background-color: rgba(43, 182, 115, 0.15); }
+        body.dark .badge-completed { background-color: rgba(93, 108, 131, 0.2); }
+        body.dark .bottom-nav { background-color: rgba(15, 18, 25, 0.92); border-color: #252A36; }
+        body.dark .bottom-nav-btn { color: #E2E4E9; }
+        body.dark .bottom-nav-btn:hover { background-color: #252A36; }
+        body.dark .cta-section { background: linear-gradient(135deg, #152016, #1a3d2e) !important; }
+        body.dark .profile-image { box-shadow: 0 0 0 8px rgba(43, 182, 115, 0.1); }
+        body.dark .kbd-hint { color: #4A5568; }
+        body.dark .view-counter { color: #5D6C83; }
+
+        .theme-toggle { transition: all 0.3s ease; }
+        .theme-toggle:hover { transform: scale(1.1); }
+
+        /* ========== VIEW TRANSITIONS ========== */
+        .view-enter { animation: slideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .view-leave { animation: slideOutLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .view-enter-reverse { animation: slideInLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .view-leave-reverse { animation: slideOutRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOutLeft { from { transform: translateX(0); opacity: 1; } to { transform: translateX(-100%); opacity: 0; } }
+        @keyframes slideInLeft { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+
+        .fade-up { animation: fadeUp 0.6s ease-out forwards; opacity: 0; }
+        .fade-up-delay-1 { animation-delay: 0.1s; }
+        .fade-up-delay-2 { animation-delay: 0.2s; }
+        .fade-up-delay-3 { animation-delay: 0.3s; }
+        .fade-up-delay-4 { animation-delay: 0.4s; }
+
+        @keyframes fadeUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
         .profile-image {
             border-radius: 50%;
-            width: 400px;
-            height: 400px;
+            width: 280px; height: 280px;
             object-fit: cover;
-            border: 4px solid white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 4px solid #2BB673;
+            box-shadow: 0 0 0 8px rgba(43, 182, 115, 0.15);
+        }
+
+        .view-scroll::-webkit-scrollbar { width: 6px; }
+        .view-scroll::-webkit-scrollbar-track { background: transparent; }
+        .view-scroll::-webkit-scrollbar-thumb { background: #5D6C83; border-radius: 3px; }
+        .view-scroll::-webkit-scrollbar-thumb:hover { background: #1E4620; }
+
+        .skill-bar-fill { transition: width 1s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        .nav-dot { transition: all 0.3s ease; }
+        .nav-dot.active { background-color: #2BB673; transform: scale(1.3); }
+
+        .timeline-line { background: linear-gradient(to bottom, #2BB673, #1E4620); }
+
+        .bottom-nav { backdrop-filter: blur(12px); }
+
+        /* Bottom nav button disabled state */
+        .bottom-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .bottom-nav-btn:disabled:hover {
+            background-color: transparent;
         }
     </style>
 </head>
-<body class="bg-[#F6F4F3] text-[#262D40] scroll-smooth" x-data="portfolio()">
-    <!-- Navigation -->
-    <nav class="fixed w-full bg-[#F6F4F3] shadow-md z-50" x-data="{ open: false }">
-        <div class="container text-lg mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="#home" class="text-xl font-bold text-[#890620]">Pol Cortadellas</a>
-            
-            <!-- Mobile menu button -->
-            <button @click="open = !open" class="md:hidden focus:outline-none">
-                <i class="fas" :class="open ? 'fa-times' : 'fa-bars'"></i>
+<body class="bg-[#F6F4F3] text-[#1C2230] h-screen overflow-hidden" x-data="portfolio()" :class="{ 'dark': darkMode }">
+
+    <!-- ==================== SIDE NAVIGATION (desktop) ==================== -->
+    <nav class="sidebar-nav fixed left-0 top-0 h-full w-16 bg-[#1C2230] z-50 hidden md:flex flex-col items-center justify-between py-6">
+        <div class="text-[#2BB673] font-bold text-xl">P</div>
+
+        <!-- Nav dots -->
+        <div class="flex flex-col items-center space-y-6">
+            <template x-for="(view, index) in views" :key="view.id">
+                <button
+                    @click="goTo(index)"
+                    class="nav-dot w-3 h-3 rounded-full bg-[#5D6C83] hover:bg-[#2BB673] relative group"
+                    :class="{ 'active': currentView === index }"
+                    :title="view.label"
+                >
+                    <span class="absolute left-8 top-1/2 -translate-y-1/2 bg-[#1C2230] text-[#F6F4F3] text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none"
+                          x-text="view.label"></span>
+                </button>
+            </template>
+        </div>
+
+        <!-- Theme toggle + Social -->
+        <div class="flex flex-col items-center space-y-4 text-[#5D6C83]">
+            <button @click="toggleDarkMode()" class="theme-toggle hover:text-[#2BB673] transition-colors text-sm" title="Toggle dark mode">
+                <i class="fas" :class="darkMode ? 'fa-sun text-yellow-400' : 'fa-moon'"></i>
             </button>
-            
-            <!-- Desktop Navigation -->
-            <div class="hidden md:flex space-x-8">
-                <a href="#about" class="hover:text-[#890620] transition-colors">About</a>
-                <a href="#experience" class="hover:text-[#890620] transition-colors">Experience</a>
-                <a href="#skills" class="hover:text-[#890620] transition-colors">Skills</a>
-                <a href="#projects" class="hover:text-[#890620] transition-colors">Projects</a>
-                <a href="#education" class="hover:text-[#890620] transition-colors">Education</a>
-            </div>
-            
-            <!-- Mobile Navigation -->
-            <div class="md:hidden absolute top-16 left-0 right-0 bg-[#F6F4F3] shadow-md p-4 transition-all duration-300"
-                    x-show="open" x-cloak @click.away="open = false">
-                <div class="flex flex-col space-y-4">
-                    <a href="#about" @click="open = false" class="hover:text-[#890620] transition-colors">About</a>
-                    <a href="#experience" @click="open = false" class="hover:text-[#890620] transition-colors">Experience</a>
-                    <a href="#skills" @click="open = false" class="hover:text-[#890620] transition-colors">Skills</a>
-                    <a href="#projects" @click="open = false" class="hover:text-[#890620] transition-colors">Projects</a>
-                    <a href="#education" @click="open = false" class="hover:text-[#890620] transition-colors">Education</a>
-                </div>
-            </div>
+            <a href="https://github.com/pol-Music" target="_blank" class="hover:text-[#2BB673] transition-colors text-sm">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/pol-cortadellas-palomino/" target="_blank" class="hover:text-[#2BB673] transition-colors text-sm">
+                <i class="fab fa-linkedin"></i>
+            </a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="pt-32 pb-20 bg-gradient-to-r from-[#E5E9F0] to-[#F6F4F3]">
-        <div class="container mx-auto px-4 flex flex-col-reverse md:flex-row items-center">
-            <div class="md:w-1/2 text-center md:text-left">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4">Hi, I'm <span class="text-[#890620]">Pol Cortadellas</span></h1>
-                <h2 class="text-xl md:text-2xl font-medium text-[#5D6C83] mb-6">Software Engineering Student</h2>
-                <p class="text-lg text-[#5D6C83] mb-8">Passionate about new technologies and solving challenging problems.</p>
-                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                    <a href="mailto:pol.cortadellas-palomino@epitech.eu" class="bg-[#890620] hover:bg-[#6a0418] text-[#F6F4F3] px-6 py-3 rounded-lg transition-colors">
-                        Contact Me
-                    </a>
-                    <a href="#projects" class="bg-[#F6F4F3] hover:bg-[#E5E9F0] text-[#890620] border border-[#890620] px-6 py-3 rounded-lg transition-colors">
-                        View Projects
-                    </a>
-                </div>
-            </div>
-            <div class="md:w-1/2 flex justify-center mb-10 md:mb-0">
-                <!-- Replace placeholder with actual image -->
-                <img src="IMG_1665.JPG" alt="Pol Cortadellas" class="profile-image" />
-            </div>
+    <!-- ==================== MOBILE TOP NAV ==================== -->
+    <nav class="mobile-nav fixed top-0 left-0 right-0 h-14 bg-[#1C2230] z-50 md:hidden flex items-center justify-between px-4">
+        <span class="text-[#2BB673] font-bold text-lg">PC</span>
+        <div class="flex items-center space-x-3">
+            <template x-for="(view, index) in views" :key="view.id">
+                <button @click="goTo(index)"
+                    class="nav-dot w-2.5 h-2.5 rounded-full bg-[#5D6C83]"
+                    :class="{ 'active': currentView === index }"
+                ></button>
+            </template>
         </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-16 bg-[#F6F4F3]">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-4">About Me</h2>
-            <div class="w-24 h-1 bg-[#890620] mx-auto mb-12"></div>
-            
-            <div class="max-w-3xl mx-auto">
-                <p class="text-lg text-[#5D6C83] mb-6">
-                    I'm Pol, a 20 years old guy who is super interested in
-                    new technologies and challenges. I am a very resolutive person in front of problems and good in front of situations of pressure.
-                </p>
-                <p class="text-lg text-[#5D6C83] mb-6">
-                    One of my strongest points is my teamwork, and how I manage problems. I have a great leadership capacity and prefer working remotely when possible, though I'm flexible regarding work arrangements.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-                    <div class="bg-[#E5E9F0] p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-4">Languages</h3>
-                        <ul class="space-y-2">
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-[#890620] mr-2"></i>
-                                <span>English - Fluent</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-[#890620] mr-2"></i>
-                                <span>Catalan - Native</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-[#890620] mr-2"></i>
-                                <span>Spanish - Native</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="bg-[#E5E9F0] p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold mb-4">Soft Skills</h3>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-[#890620] mr-2"></i>
-                                <span>Leadership</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-[#890620] mr-2"></i>
-                                <span>Empathy</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-[#890620] mr-2"></i>
-                                <span>Critical thinking</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-[#890620] mr-2"></i>
-                                <span>Decision-making</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-[#890620] mr-2"></i>
-                                <span>Conflict resolution</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-[#890620] mr-2"></i>
-                                <span>Adaptability</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-[#890620] mr-2"></i>
-                                <span>Communication</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-check text-[#890620] mr-2"></i>
-                                <span>Team-work</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="flex items-center space-x-3">
+            <button @click="toggleDarkMode()" class="theme-toggle text-[#F6F4F3]">
+                <i class="fas" :class="darkMode ? 'fa-sun text-yellow-400' : 'fa-moon'"></i>
+            </button>
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-[#F6F4F3]">
+                <i class="fas" :class="mobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+            </button>
         </div>
-    </section>
+    </nav>
 
-    <!-- Experience Section -->
-    <section id="experience" class="py-16 bg-[#E5E9F0]">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-4">Work Experience</h2>
-            <div class="w-24 h-1 bg-[#890620] mx-auto mb-12"></div>
-            
-            <div class="max-w-3xl mx-auto space-y-8">
-                <div class="relative">
-                    <!-- Timeline line -->
-                    <div class="absolute left-8 top-8 bottom-0 w-0.5 bg-[#F6F4F3] hidden md:block"></div>
-                    
-                    <div class="space-y-12">
-                        <div class="flex flex-col md:flex-row">
-                            <div class="md:w-1/3 flex justify-center md:justify-start">
-                                <div class="w-16 h-16 bg-[#F6F4F3] rounded-full flex items-center justify-center z-10 shadow-sm">
-                                    <i class="fas fa-briefcase text-2xl text-[#890620]"></i>
-                                </div>
-                            </div>
-                            <div class="md:w-2/3 mt-4 md:mt-0">
-                                <h3 class="text-xl font-semibold">AI Engineer</h3>
-                                <p class="text-[#890620] font-medium mb-1">Service Innovation Group</p>
-                                <p class="text-[#5D6C83] mb-2"><i class="far fa-calendar-alt mr-2"></i>March 2026 - Present</p>
-                                <p class="text-[#5D6C83]">Working as an AI engineer, developing and implementing AI solutions for the company.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-col md:flex-row">
-                            <div class="md:w-1/3 flex justify-center md:justify-start">
-                                <div class="w-16 h-16 bg-[#F6F4F3] rounded-full flex items-center justify-center z-10 shadow-sm">
-                                    <i class="fas fa-chart-line text-2xl text-[#890620]"></i>
-                                </div>
-                            </div>
-                            <div class="md:w-2/3 mt-4 md:mt-0">
-                                <h3 class="text-xl font-semibold">Junior BI Analyst</h3>
-                                <p class="text-[#890620] font-medium mb-1">Service Innovation Group</p>
-                                <p class="text-[#5D6C83] mb-2"><i class="far fa-calendar-alt mr-2"></i>August 2025 - December 2025</p>
-                                <p class="text-[#5D6C83]">Worked as a junior member of the BI team, supporting data analysis and reporting tasks.</p>
-                            </div>
-                        </div>
+    <!-- Mobile menu overlay -->
+    <div x-show="mobileMenuOpen" x-cloak
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="mobile-overlay fixed inset-0 bg-[#1C2230]/95 z-40 md:hidden flex flex-col items-center justify-center">
+        <template x-for="(view, index) in views" :key="view.id">
+            <button
+                @click="goTo(index); mobileMenuOpen = false"
+                class="text-[#F6F4F3] text-2xl py-3 hover:text-[#2BB673] transition-colors"
+                :class="{ 'text-[#2BB673]': currentView === index }"
+                x-text="view.label"
+            ></button>
+        </template>
+    </div>
+
+    <!-- ==================== BOTTOM NAVIGATION BAR ==================== -->
+    <div class="bottom-nav fixed bottom-0 left-0 md:left-16 right-0 z-50 bg-[#F6F4F3]/90 border-t border-[#E5E9F0] px-4 md:px-8 py-3">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <!-- Previous button -->
+            <button
+                @click="currentView > 0 && goTo(currentView - 1)"
+                :disabled="currentView === 0"
+                class="bottom-nav-btn flex items-center gap-2 px-4 py-2 rounded-lg text-[#1C2230] hover:bg-[#E5E9F0] transition-all duration-200 font-medium text-sm"
+            >
+                <i class="fas fa-arrow-left text-xs"></i>
+                <span class="hidden sm:inline" x-text="currentView > 0 ? views[currentView - 1].label : ''"></span>
+                <span class="sm:hidden">Prev</span>
+            </button>
+
+            <!-- View indicator -->
+            <div class="flex items-center gap-3">
+                <span class="view-counter text-[#5D6C83] text-xs font-medium" x-text="(currentView + 1) + ' / ' + views.length"></span>
+                <span class="text-[#2BB673] font-semibold text-sm" x-text="views[currentView].label"></span>
+            </div>
+
+            <!-- Next button -->
+            <button
+                @click="currentView < views.length - 1 && goTo(currentView + 1)"
+                :disabled="currentView === views.length - 1"
+                class="bottom-nav-btn flex items-center gap-2 px-4 py-2 rounded-lg text-[#1C2230] hover:bg-[#E5E9F0] transition-all duration-200 font-medium text-sm"
+            >
+                <span class="hidden sm:inline" x-text="currentView < views.length - 1 ? views[currentView + 1].label : ''"></span>
+                <span class="sm:hidden">Next</span>
+                <i class="fas fa-arrow-right text-xs"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="md:ml-16 h-screen">
+
+        <!-- ============ VIEW 0: HOME ============ -->
+        <section x-show="currentView === 0" x-cloak
+                 class="h-full flex items-center justify-center px-6 md:px-16 pt-14 md:pt-0 pb-16"
+                 :class="transitionClass">
+            <div class="max-w-6xl w-full flex flex-col-reverse md:flex-row items-center gap-10 md:gap-16">
+                <div class="md:w-3/5 text-center md:text-left">
+                    <p class="text-[#2BB673] font-medium mb-2 fade-up" x-show="currentView === 0">Hello, I'm</p>
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 fade-up fade-up-delay-1 leading-tight" x-show="currentView === 0">
+                        Pol <span class="text-primary-green text-[#1E4620]">Cortadellas</span>
+                    </h1>
+                    <h2 class="text-xl md:text-2xl font-medium text-secondary text-[#5D6C83] mb-6 fade-up fade-up-delay-2" x-show="currentView === 0">
+                        Software Engineering Student &amp; AI Engineer
+                    </h2>
+                    <p class="text-secondary text-[#5D6C83] text-lg mb-8 max-w-lg fade-up fade-up-delay-3" x-show="currentView === 0">
+                        Passionate about new technologies, solving challenging problems, and building intelligent systems.
+                    </p>
+                    <div class="flex flex-wrap gap-4 justify-center md:justify-start fade-up fade-up-delay-4" x-show="currentView === 0">
+                        <a href="mailto:pol.cortadellas-palomino@epitech.eu"
+                           class="bg-[#1E4620] hover:bg-[#2BB673] text-[#F6F4F3] px-6 py-3 rounded-lg transition-all duration-300 font-medium">
+                            <i class="fas fa-envelope mr-2"></i>Contact Me
+                        </a>
+                        <button @click="goTo(4)"
+                           class="border-2 border-[#1E4620] text-[#1E4620] hover:bg-[#1E4620] hover:text-[#F6F4F3] px-6 py-3 rounded-lg transition-all duration-300 font-medium">
+                            <i class="fas fa-folder-open mr-2"></i>View Projects
+                        </button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="education" class="py-16 bg-[#F6F4F3]">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-4">Education</h2>
-            <div class="w-24 h-1 bg-[#890620] mx-auto mb-12"></div>
-            
-            <div class="max-w-3xl mx-auto space-y-8">
-                <div class="relative">
-                    <!-- Timeline line -->
-                    <div class="absolute left-8 top-8 bottom-0 w-0.5 bg-[#E5E9F0] hidden md:block"></div>
-                    
-                    <!-- Education items -->
-                    <div class="space-y-12">
-                        <div class="flex flex-col md:flex-row">
-                            <div class="md:w-1/3 flex justify-center md:justify-start">
-                                <div class="w-16 h-16 bg-[#E5E9F0] rounded-full flex items-center justify-center z-10">
-                                    <i class="fas fa-graduation-cap text-2xl text-[#890620]"></i>
-                                </div>
-                            </div>
-                            <div class="md:w-2/3 mt-4 md:mt-0">
-                                <h3 class="text-xl font-semibold">Degree + Master of Software Development</h3>
-                                <p class="text-[#5D6C83] mb-2">Epitech - European Institute of Technology</p>
-                                <p class="text-[#5D6C83]">2024 - 2029</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-col md:flex-row">
-                            <div class="md:w-1/3 flex justify-center md:justify-start">
-                                <div class="w-16 h-16 bg-[#E5E9F0] rounded-full flex items-center justify-center z-10">
-                                    <i class="fas fa-school text-2xl text-[#890620]"></i>
-                                </div>
-                            </div>
-                            <div class="md:w-2/3 mt-4 md:mt-0">
-                                <h3 class="text-xl font-semibold">Dual Baccalaureate Diploma</h3>
-                                <p class="text-[#5D6C83] mb-2">Sagrat Cor Esclaves</p>
-                                <p class="text-[#5D6C83]">2022 - 2024</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="md:w-2/5 flex justify-center fade-up" x-show="currentView === 0">
+                    <img src="IMG_1665.JPG" alt="Pol Cortadellas" class="profile-image" />
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="py-16 bg-[#F6F4F3]">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-4">Technical Skills</h2>
-            <div class="w-24 h-1 bg-[#890620] mx-auto mb-12"></div>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-                <template x-for="skill in skills" :key="skill.name">
-                    <div class="bg-[#E5E9F0] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-[#E5E9F0] text-[#890620] mb-4 mx-auto">
-                            <i :class="skill.icon"></i>
-                        </div>
-                        <div class="text-center mb-2 h-14 flex flex-col justify-end">
-                            <h3 class="text-lg font-semibold" x-text="skill.name"></h3>
-                            <span class="text-sm text-[#5D6C83]" x-text="skill.textLevel"></span>
-                        </div>
-                        <div class="w-full bg-[#E5E9F0] rounded-full h-2.5">
-                            <div class="bg-[#890620] h-2.5 rounded-full" :style="`width: ${skill.level}%`"></div>
-                        </div>
+        <!-- ============ VIEW 1: ABOUT ============ -->
+        <section x-show="currentView === 1" x-cloak
+                 class="h-full overflow-y-auto view-scroll px-6 md:px-16 pt-20 md:pt-12 pb-20"
+                 :class="transitionClass">
+            <div class="max-w-5xl mx-auto">
+                <div class="mb-10 fade-up" x-show="currentView === 1">
+                    <span class="text-[#2BB673] font-medium text-sm uppercase tracking-widest">Get to know me</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2">About Me</h2>
+                    <div class="w-16 h-1 bg-[#2BB673] mt-3"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="fade-up fade-up-delay-1" x-show="currentView === 1">
+                        <p class="text-secondary text-[#5D6C83] text-lg leading-relaxed mb-6">
+                            I'm Pol, a 20 years old guy who is super interested in
+                            new technologies and challenges. I am a very resolutive person in front of problems and good in front of situations of pressure.
+                        </p>
+                        <p class="text-secondary text-[#5D6C83] text-lg leading-relaxed">
+                            One of my strongest points is my teamwork, and how I manage problems. I have a great leadership capacity and prefer working remotely when possible, though I'm flexible regarding work arrangements.
+                        </p>
                     </div>
-                </template>
-            </div>
-        </div>
-    </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="py-16 bg-[#F6F4F3]">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-4">Projects</h2>
-            <div class="w-24 h-1 bg-[#890620] mx-auto mb-12"></div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <template x-for="project in projects" :key="project.title">
-                    <div class="bg-[#E5E9F0] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-                            x-data="{ showDetails: false }">
-                        <div class="h-48 bg-[#E5E9F0] flex items-center justify-center">
-                            <i :class="project.icon + ' text-5xl text-[#890620]'"></i>
+                    <div class="space-y-6">
+                        <!-- Languages card -->
+                        <div class="card bg-white rounded-xl p-6 shadow-sm border border-[#E5E9F0] fade-up fade-up-delay-2" x-show="currentView === 1">
+                            <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                <span class="icon-container-accent w-8 h-8 bg-[#2BB673]/10 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-globe text-[#2BB673] text-sm"></i>
+                                </span>
+                                Languages
+                            </h3>
+                            <div class="space-y-2">
+                                <div class="flex items-center text-secondary text-[#5D6C83]">
+                                    <i class="fas fa-check-circle text-[#2BB673] mr-3 text-sm"></i>
+                                    <span>English — Fluent</span>
+                                </div>
+                                <div class="flex items-center text-secondary text-[#5D6C83]">
+                                    <i class="fas fa-check-circle text-[#2BB673] mr-3 text-sm"></i>
+                                    <span>Catalan — Native</span>
+                                </div>
+                                <div class="flex items-center text-secondary text-[#5D6C83]">
+                                    <i class="fas fa-check-circle text-[#2BB673] mr-3 text-sm"></i>
+                                    <span>Spanish — Native</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2" x-text="project.title"></h3>
-                            <p class="text-[#5D6C83] mb-4" x-text="showDetails ? project.description : (project.description.length > 100 ? project.description.substring(0, 100) + '...' : project.description)"></p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <template x-for="tech in project.technologies" :key="tech">
-                                    <span class="px-2 py-1 bg-[#E5E9F0] text-[#5D6C83] text-xs rounded-full" x-text="tech"></span>
+
+                        <!-- Soft Skills card -->
+                        <div class="card bg-white rounded-xl p-6 shadow-sm border border-[#E5E9F0] fade-up fade-up-delay-3" x-show="currentView === 1">
+                            <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                <span class="icon-container w-8 h-8 bg-[#1E4620]/10 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-users text-[#1E4620] text-sm"></i>
+                                </span>
+                                Soft Skills
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                <template x-for="skill in ['Leadership', 'Empathy', 'Critical Thinking', 'Decision-Making', 'Conflict Resolution', 'Adaptability', 'Communication', 'Teamwork']" :key="skill">
+                                    <span class="tag px-3 py-1.5 bg-[#F6F4F3] text-[#5D6C83] text-sm rounded-full border border-[#E5E9F0]" x-text="skill"></span>
                                 </template>
                             </div>
-                            <button @click="showDetails = !showDetails" 
-                                    class="text-[#890620] hover:text-[#5D6C83] transition-colors">
-                                <span x-text="showDetails ? 'Show less' : 'Show more'"></span>
-                                <i class="fas" :class="showDetails ? 'fa-chevron-up ml-1' : 'fa-chevron-down ml-1'"></i>
-                            </button>
                         </div>
                     </div>
-                </template>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-8 bg-[#262D40] text-[#F6F4F3]">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <p class="mb-4 md:mb-0">&copy; 2025 Pol Cortadellas. All rights reserved.</p>
-                <div class="flex space-x-4">
-                    <a href="#" class="hover:text-[#F6F4F3] transition-colors">
-                        <i class="fab fa-linkedin text-xl"></i>
-                    </a>
-                    <a href="#" class="hover:text-[#F6F4F3] transition-colors">
-                        <i class="fab fa-github text-xl"></i>
-                    </a>
-                    <a href="#" class="hover:text-[#F6F4F3] transition-colors">
-                        <i class="fab fa-twitter text-xl"></i>
-                    </a>
                 </div>
             </div>
-        </div>
-    </footer>
+        </section>
 
-    <!-- Back to top button -->
-    <button @click="scrollToTop" 
-            class="fixed bottom-6 right-6 bg-[#890620] text-[#F6F4F3] w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-[#6a0418] transition-colors"
-            x-show="showBackToTop"
-            x-transition
-            x-cloak>
-        <i class="fas fa-chevron-up"></i>
-    </button>
+        <!-- ============ VIEW 2: EXPERIENCE ============ -->
+        <section x-show="currentView === 2" x-cloak
+                 class="h-full overflow-y-auto view-scroll px-6 md:px-16 pt-20 md:pt-12 pb-20"
+                 :class="transitionClass">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-10 fade-up" x-show="currentView === 2">
+                    <span class="text-[#2BB673] font-medium text-sm uppercase tracking-widest">Where I've worked</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2">Experience</h2>
+                    <div class="w-16 h-1 bg-[#2BB673] mt-3"></div>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute left-6 top-0 bottom-0 w-0.5 timeline-line hidden md:block"></div>
+
+                    <div class="space-y-10">
+                        <!-- Experience 1 -->
+                        <div class="flex flex-col md:flex-row gap-6 fade-up fade-up-delay-1" x-show="currentView === 2">
+                            <div class="hidden md:flex flex-shrink-0 w-12 h-12 bg-[#2BB673] rounded-xl items-center justify-center z-10 shadow-md">
+                                <i class="fas fa-robot text-white"></i>
+                            </div>
+                            <div class="card bg-white rounded-xl p-6 shadow-sm border border-[#E5E9F0] flex-1">
+                                <div class="flex flex-wrap items-center gap-3 mb-3">
+                                    <span class="badge-current px-3 py-1 bg-[#2BB673]/10 text-[#2BB673] text-xs font-semibold rounded-full">Current</span>
+                                    <span class="text-secondary text-[#5D6C83] text-sm"><i class="far fa-calendar-alt mr-1"></i>March 2026 — Present</span>
+                                </div>
+                                <h3 class="text-xl font-bold mb-1">AI Engineer</h3>
+                                <p class="text-primary-green text-[#1E4620] font-medium mb-3">Service Innovation Group</p>
+                                <p class="text-secondary text-[#5D6C83] leading-relaxed">Working as an AI engineer, developing and implementing AI solutions for the company.</p>
+                            </div>
+                        </div>
+
+                        <!-- Experience 2 -->
+                        <div class="flex flex-col md:flex-row gap-6 fade-up fade-up-delay-2" x-show="currentView === 2">
+                            <div class="hidden md:flex flex-shrink-0 w-12 h-12 bg-[#1E4620] rounded-xl items-center justify-center z-10 shadow-md">
+                                <i class="fas fa-chart-line text-white"></i>
+                            </div>
+                            <div class="card bg-white rounded-xl p-6 shadow-sm border border-[#E5E9F0] flex-1">
+                                <div class="flex flex-wrap items-center gap-3 mb-3">
+                                    <span class="text-secondary text-[#5D6C83] text-sm"><i class="far fa-calendar-alt mr-1"></i>August 2025 — December 2025</span>
+                                </div>
+                                <h3 class="text-xl font-bold mb-1">Junior BI Analyst</h3>
+                                <p class="text-primary-green text-[#1E4620] font-medium mb-3">Service Innovation Group</p>
+                                <p class="text-secondary text-[#5D6C83] leading-relaxed">Worked as a junior member of the BI team, supporting data analysis and reporting tasks.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ VIEW 3: SKILLS ============ -->
+        <section x-show="currentView === 3" x-cloak
+                 class="h-full overflow-y-auto view-scroll px-6 md:px-16 pt-20 md:pt-12 pb-20"
+                 :class="transitionClass">
+            <div class="max-w-5xl mx-auto">
+                <div class="mb-10 fade-up" x-show="currentView === 3">
+                    <span class="text-[#2BB673] font-medium text-sm uppercase tracking-widest">What I work with</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2">Technical Skills</h2>
+                    <div class="w-16 h-1 bg-[#2BB673] mt-3"></div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <template x-for="(skill, idx) in skills" :key="skill.name">
+                        <div class="card bg-white rounded-xl p-5 shadow-sm border border-[#E5E9F0] hover:shadow-md hover:border-[#2BB673]/30 transition-all duration-300 fade-up"
+                             :class="'fade-up-delay-' + Math.min(idx % 4 + 1, 4)"
+                             x-show="currentView === 3">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="icon-container w-10 h-10 rounded-lg bg-[#1E4620]/10 flex items-center justify-center flex-shrink-0">
+                                    <i :class="skill.icon + ' text-[#1E4620]'"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-sm" x-text="skill.name"></h3>
+                                    <span class="text-secondary text-xs text-[#5D6C83]" x-text="skill.textLevel"></span>
+                                </div>
+                            </div>
+                            <div class="skill-bar-bg w-full bg-[#F6F4F3] rounded-full h-2">
+                                <div class="bg-gradient-to-r from-[#1E4620] to-[#2BB673] h-2 rounded-full skill-bar-fill"
+                                     :style="currentView === 3 ? `width: ${skill.level}%` : 'width: 0%'"></div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ VIEW 4: PROJECTS ============ -->
+        <section x-show="currentView === 4" x-cloak
+                 class="h-full overflow-y-auto view-scroll px-6 md:px-16 pt-20 md:pt-12 pb-20"
+                 :class="transitionClass">
+            <div class="max-w-6xl mx-auto">
+                <div class="mb-10 fade-up" x-show="currentView === 4">
+                    <span class="text-[#2BB673] font-medium text-sm uppercase tracking-widest">What I've built</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2">Projects</h2>
+                    <div class="w-16 h-1 bg-[#2BB673] mt-3"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <template x-for="(project, idx) in projects" :key="project.title">
+                        <div class="card bg-white rounded-xl overflow-hidden shadow-sm border border-[#E5E9F0] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 fade-up group"
+                             :class="'fade-up-delay-' + Math.min(idx % 4 + 1, 4)"
+                             x-show="currentView === 4"
+                             x-data="{ expanded: false }">
+                            <div class="h-36 bg-gradient-to-br from-[#1E4620] to-[#2BB673] flex items-center justify-center relative overflow-hidden">
+                                <i :class="project.icon + ' text-5xl text-white/90 group-hover:scale-110 transition-transform duration-300'"></i>
+                                <div class="absolute -top-6 -right-6 w-24 h-24 bg-white/5 rounded-full"></div>
+                                <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-white/5 rounded-full"></div>
+                            </div>
+                            <div class="p-5">
+                                <h3 class="text-lg font-bold mb-2" x-text="project.title"></h3>
+                                <p class="text-secondary text-[#5D6C83] text-sm leading-relaxed mb-4"
+                                   x-text="expanded ? project.description : (project.description.length > 80 ? project.description.substring(0, 80) + '...' : project.description)"></p>
+                                <div class="flex flex-wrap gap-1.5 mb-3">
+                                    <template x-for="tech in project.technologies" :key="tech">
+                                        <span class="tech-tag px-2 py-0.5 bg-[#2BB673]/10 text-[#1E4620] text-xs rounded-md font-medium" x-text="tech"></span>
+                                    </template>
+                                </div>
+                                <button @click="expanded = !expanded"
+                                        class="text-[#2BB673] hover:text-[#1E4620] text-sm font-medium transition-colors"
+                                        x-show="project.description.length > 80">
+                                    <span x-text="expanded ? 'Show less' : 'Read more'"></span>
+                                    <i class="fas fa-chevron-right ml-1 text-xs transition-transform duration-200"
+                                       :class="expanded ? 'rotate-90' : ''"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ VIEW 5: EDUCATION ============ -->
+        <section x-show="currentView === 5" x-cloak
+                 class="h-full overflow-y-auto view-scroll px-6 md:px-16 pt-20 md:pt-12 pb-20"
+                 :class="transitionClass">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-10 fade-up" x-show="currentView === 5">
+                    <span class="text-[#2BB673] font-medium text-sm uppercase tracking-widest">My academic path</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2">Education</h2>
+                    <div class="w-16 h-1 bg-[#2BB673] mt-3"></div>
+                </div>
+
+                <div class="space-y-8">
+                    <!-- Education 1 -->
+                    <div class="flex flex-col md:flex-row gap-6 fade-up fade-up-delay-1" x-show="currentView === 5">
+                        <div class="hidden md:flex flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#1E4620] to-[#2BB673] rounded-2xl items-center justify-center shadow-md">
+                            <i class="fas fa-graduation-cap text-white text-xl"></i>
+                        </div>
+                        <div class="card bg-white rounded-xl p-6 shadow-sm border border-[#E5E9F0] flex-1">
+                            <div class="flex flex-wrap items-center gap-3 mb-3">
+                                <span class="badge-current px-3 py-1 bg-[#2BB673]/10 text-[#2BB673] text-xs font-semibold rounded-full">In Progress</span>
+                                <span class="text-secondary text-[#5D6C83] text-sm">2024 — 2029</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">Degree + Master of Software Development</h3>
+                            <p class="text-primary-green text-[#1E4620] font-medium mb-3">Epitech — European Institute of Technology</p>
+                            <p class="text-secondary text-[#5D6C83] leading-relaxed">Comprehensive program covering software engineering, systems programming, and modern development practices.</p>
+                        </div>
+                    </div>
+
+                    <!-- Education 2 -->
+                    <div class="flex flex-col md:flex-row gap-6 fade-up fade-up-delay-2" x-show="currentView === 5">
+                        <div class="hidden md:flex flex-shrink-0 w-16 h-16 bg-[#1E4620] rounded-2xl items-center justify-center shadow-md">
+                            <i class="fas fa-school text-white text-xl"></i>
+                        </div>
+                        <div class="card bg-white rounded-xl p-6 shadow-sm border border-[#E5E9F0] flex-1">
+                            <div class="flex flex-wrap items-center gap-3 mb-3">
+                                <span class="badge-completed px-3 py-1 bg-[#5D6C83]/10 text-[#5D6C83] text-xs font-semibold rounded-full">Completed</span>
+                                <span class="text-secondary text-[#5D6C83] text-sm">2022 — 2024</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">Dual Baccalaureate Diploma</h3>
+                            <p class="text-primary-green text-[#1E4620] font-medium mb-3">Sagrat Cor Esclaves</p>
+                            <p class="text-secondary text-[#5D6C83] leading-relaxed">Achieved a dual baccalaureate diploma with focus on science and technology.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact CTA -->
+                <div class="mt-16 text-center fade-up fade-up-delay-3" x-show="currentView === 5">
+                    <div class="cta-section bg-gradient-to-br from-[#1E4620] to-[#2BB673] rounded-2xl p-8 md:p-12 text-white">
+                        <h3 class="text-2xl md:text-3xl font-bold mb-4">Let's work together</h3>
+                        <p class="text-white/80 mb-6 max-w-md mx-auto">I'm always open to discussing new opportunities and interesting projects.</p>
+                        <a href="mailto:pol.cortadellas-palomino@epitech.eu"
+                           class="inline-block bg-white text-[#1E4620] px-8 py-3 rounded-lg font-semibold hover:bg-[#F6F4F3] transition-colors">
+                            <i class="fas fa-envelope mr-2"></i>Get in Touch
+                        </a>
+                    </div>
+                    <p class="text-secondary text-[#5D6C83] text-sm mt-6">&copy; 2025 Pol Cortadellas. All rights reserved.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <script>
         function portfolio() {
             return {
-                showBackToTop: false,
-                formSubmitted: false,
-                form: {
-                    name: '',
-                    email: '',
-                    message: ''
-                },
-                
+                currentView: 0,
+                previousView: 0,
+                transitionClass: '',
+                mobileMenuOpen: false,
+                isTransitioning: false,
+                darkMode: false,
+
+                views: [
+                    { id: 'home', label: 'Home' },
+                    { id: 'about', label: 'About' },
+                    { id: 'experience', label: 'Experience' },
+                    { id: 'skills', label: 'Skills' },
+                    { id: 'projects', label: 'Projects' },
+                    { id: 'education', label: 'Education' },
+                ],
+
                 skills: [
                     { name: 'C', icon: 'fas fa-code', level: 80, textLevel: 'Upper-intermediate' },
                     { name: 'C++', icon: 'fas fa-code', level: 80, textLevel: 'Upper-intermediate' },
@@ -359,11 +546,11 @@
                     { name: 'Git/GitHub', icon: 'fab fa-github', level: 75, textLevel: 'Intermediate' },
                     { name: 'Docker (Dev-ops)', icon: 'fab fa-docker', level: 60, textLevel: 'Intermediate' },
                     { name: 'Unit Testing', icon: 'fas fa-vial', level: 65, textLevel: 'Intermediate' },
-                    { name: 'Copilot studio/365', icon: 'fas fa-robot', level: 70, textLevel: 'Intermediate' },
+                    { name: 'Copilot Studio/365', icon: 'fas fa-robot', level: 70, textLevel: 'Intermediate' },
                     { name: 'Machine Learning', icon: 'fas fa-brain', level: 30, textLevel: 'Beginner / Interest' },
                     { name: 'Reinforcement Learning', icon: 'fas fa-project-diagram', level: 30, textLevel: 'Beginner / Interest' }
                 ],
-                
+
                 projects: [
                     {
                         title: 'Zappy',
@@ -375,7 +562,7 @@
                         title: 'Startrek (RL Bot)',
                         icon: 'fas fa-rocket',
                         description: 'A Python project to create a Reinforcement Learning bot that can make a spaceship land safely.',
-                        technologies: ['Python', 'Reinforcement Learning', 'AI']
+                        technologies: ['Python', 'RL', 'AI']
                     },
                     {
                         title: 'Raytracer',
@@ -387,7 +574,7 @@
                         title: 'Unity VR Museum',
                         icon: 'fas fa-vr-cardboard',
                         description: 'A VR project on Unity to create a recreation of a museum inside the Giza pyramid. This immersive experience allows users to explore historical artifacts in virtual reality.',
-                        technologies: ['Unity', 'VR', '3D Modeling']
+                        technologies: ['Unity', 'VR', '3D']
                     },
                     {
                         title: 'Epi-To-Do',
@@ -399,19 +586,107 @@
                         title: 'Maths Projects',
                         icon: 'fas fa-calculator',
                         description: 'Diverse problems of algorithms, matrices and vectors implemented in Python. These projects explore mathematical concepts and their applications in programming.',
-                        technologies: ['Python', 'Mathematics', 'Algorithms']
+                        technologies: ['Python', 'Maths', 'Algorithms']
                     }
                 ],
-                
+
+                toggleDarkMode() {
+                    this.darkMode = !this.darkMode;
+                    localStorage.setItem('darkMode', this.darkMode);
+                },
+
+                goTo(index) {
+                    if (index === this.currentView || this.isTransitioning) return;
+                    this.isTransitioning = true;
+                    this.previousView = this.currentView;
+
+                    if (index > this.currentView) {
+                        this.transitionClass = 'view-enter';
+                    } else {
+                        this.transitionClass = 'view-enter-reverse';
+                    }
+
+                    this.currentView = index;
+
+                    setTimeout(() => {
+                        this.transitionClass = '';
+                        this.isTransitioning = false;
+                    }, 500);
+                },
+
                 init() {
-                    window.addEventListener('scroll', () => {
-                        this.showBackToTop = window.pageYOffset > 300;
+                    // Restore dark mode preference
+                    const saved = localStorage.getItem('darkMode');
+                    if (saved !== null) {
+                        this.darkMode = saved === 'true';
+                    } else {
+                        // Default to system preference
+                        this.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    }
+
+                    // Keyboard navigation
+                    window.addEventListener('keydown', (e) => {
+                        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                            e.preventDefault();
+                            if (this.currentView < this.views.length - 1) {
+                                this.goTo(this.currentView + 1);
+                            }
+                        }
+                        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                            e.preventDefault();
+                            if (this.currentView > 0) {
+                                this.goTo(this.currentView - 1);
+                            }
+                        }
                     });
-                },
-                
-                scrollToTop() {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                },
+
+                    // Mouse wheel navigation
+                    let wheelTimeout = null;
+                    window.addEventListener('wheel', (e) => {
+                        const activeSection = document.querySelector(`section:nth-of-type(${this.currentView + 1})`);
+                        if (activeSection) {
+                            const scrollContainer = activeSection.classList.contains('view-scroll') ? activeSection : null;
+                            if (scrollContainer) {
+                                const isAtTop = scrollContainer.scrollTop <= 0;
+                                const isAtBottom = scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight - 2;
+
+                                if (e.deltaY > 0 && !isAtBottom) return;
+                                if (e.deltaY < 0 && !isAtTop) return;
+                            }
+                        }
+
+                        if (wheelTimeout) return;
+                        wheelTimeout = setTimeout(() => { wheelTimeout = null; }, 800);
+
+                        if (e.deltaY > 0 && this.currentView < this.views.length - 1) {
+                            this.goTo(this.currentView + 1);
+                        } else if (e.deltaY < 0 && this.currentView > 0) {
+                            this.goTo(this.currentView - 1);
+                        }
+                    }, { passive: true });
+
+                    // Touch swipe navigation
+                    let touchStartY = 0;
+                    window.addEventListener('touchstart', (e) => {
+                        touchStartY = e.touches[0].clientY;
+                    }, { passive: true });
+
+                    window.addEventListener('touchend', (e) => {
+                        const touchEndY = e.changedTouches[0].clientY;
+                        const diff = touchStartY - touchEndY;
+
+                        if (Math.abs(diff) > 50) {
+                            if (diff > 0 && this.currentView < this.views.length - 1) {
+                                this.goTo(this.currentView + 1);
+                            } else if (diff < 0 && this.currentView > 0) {
+                                this.goTo(this.currentView - 1);
+                            }
+                        }
+                    }, { passive: true });
+
+                    // Show first view
+                    this.currentView = 0;
+                }
             };
         }
     </script>
